@@ -1,0 +1,23 @@
+{
+    "name": "cordova-plugin-amazon-push-ka",
+    "version": "1.0.0",
+    "description": "Amazon push",
+    "cordova": {
+      "id": "cordova-plugin-amazon-push-ka",
+      "platforms": [
+        "android"
+      ]
+    },
+    "repository": {
+      "type": "git",
+      "url": ""
+    },
+    "keywords": [
+    ],
+    "author": "",
+    "license": "",
+    "bugs": {
+      "url": ""
+    },
+    "homepage": ""
+  }

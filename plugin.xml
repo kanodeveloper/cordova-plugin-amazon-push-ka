@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+    	xmlns:amazon="http://schemas.amazon.com/apk/res/android"
+        id="cordova-plugin-amazon-push-ka" version="1.0.0">
+  	<name>Amazon Push Notification</name>
+	<description>Amazon Login</description>
+	<license>MIT</license>
+	<js-module src="www/amazonpush.js" name="AmazonPush">
+		<clobbers target="AmazonPush" />
+	</js-module>
+
+	<platform name="android">
+
+		<config-file target="AndroidManifest.xml" parent="/*">
+            <permission
+				android:name="${applicationId}.permission.RECEIVE_ADM_MESSAGE"
+				android:protectionLevel="signature" />
+			<uses-permission android:name="${applicationId}.permission.RECEIVE_ADM_MESSAGE" />
+
+			<uses-permission android:name="com.amazon.device.messaging.permission.RECEIVE" />
+
+			<uses-permission android:name="android.permission.WAKE_LOCK" />
+        </config-file>
+
+		<config-file target="AndroidManifest.xml" parent="/manifest/application">
+
+			<amazon:enable-feature
+				android:name="com.amazon.device.messaging"
+				android:required="false"/>
+
+			<service
+				android:name="com.kanoapps.cordova.amazonpush.MyADMMessageHandler"
+				android:exported="false" />
+
+			<receiver
+				android:name="com.kanoapps.cordova.amazonpush.MyADMMessageHandler$Receiver"
+				android:permission="com.amazon.device.messaging.permission.SEND" >
+
+				<intent-filter>
+				<action android:name="com.amazon.device.messaging.intent.REGISTRATION" />
+				<action android:name="com.amazon.device.messaging.intent.RECEIVE" />
+
+				<category android:name="${applicationId}" />
+				</intent-filter>
+
+			</receiver>
+		</config-file>
+
+		<config-file target="config.xml" parent="/*">
+		<feature name="AmazonPushPlugin">
+			<param name="android-package" value="com.kanoapps.cordova.amazonpush.AmazonPushPlugin"/>
+		</feature>
+		</config-file>
+
+		<source-file src="src/android/AmazonPushPlugin.java" target-dir="src/com/kanoapps/cordova/amazonpush" />
+		<source-file src="src/android/MyADMMessageHandler.java" target-dir="src/com/kanoapps/cordova/amazonpush" />
+		<source-file src="src/android/amazon-device-messaging-1.0.1.jar" target-dir="libs" />
+	</platform>
+</plugin>
